@@ -14,8 +14,8 @@ execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
 execute_process(COMMAND ${CMAKE_COMMAND} --build .
         WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/googletest-download )
 
-find_package(GTest REQUIRED)
-find_package(Threads REQUIRED)
+#find_package(GTest REQUIRED)
+#find_package(Threads REQUIRED)
 
 
 
