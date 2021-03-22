@@ -6,20 +6,19 @@
 
 
 extern "C" {
-
-#include "one/one_proc_utils.h"
-#include "multi/multi_process_utils.h"
+    #include "one/one_proc_utils.h"
+    #include "multi/multi_process_utils.h"
 }
 
 TEST(read_file, reading_from_file_test2) {
-Matrix* matrix = read_file(SOURCE_DIR"/tests/tes");
-if (matrix != NULL)
-free_matrix(matrix);
+    Matrix* matrix = read_file(SOURCE_DIR"/tests/tes");
+    if (matrix != NULL)
+        free_matrix(matrix);
 }
+
 //
-
-
 // Тест чтения из файлов
+//
 
 TEST(read_file, reading_from_file_test3) {
     Matrix* matrix = read_file(SOURCE_DIR"/tests/test2");
@@ -33,21 +32,23 @@ TEST(read_file, reading_from_file_test3) {
     }
 }
 
-//// Тест синхронного алгоритма
+//
+// Тест синхронного алгоритма
+//
 
 TEST(calculate_matrix, calculate_matrix_one_proc2) {
-Matrix* matrix = read_file(SOURCE_DIR"/tests/test1");
+    Matrix* matrix = read_file(SOURCE_DIR"/tests/test1");
 
-if (matrix != NULL) {
-Calculation_res* res = calculate_matrix(matrix);
-int main = res->main_diagonal;
-int side = res->side_diagonal;
-free(res);
+    if (matrix != NULL) {
+        Calculation_res* res = calculate_matrix(matrix);
+        int main = res->main_diagonal;
+        int side = res->side_diagonal;
+        free(res);
 
-free_matrix(matrix);
-EXPECT_EQ(15, main);
-EXPECT_EQ(16, side);
-}
+        free_matrix(matrix);
+        EXPECT_EQ(15, main);
+        EXPECT_EQ(16, side);
+    }
 }
 
 
@@ -66,45 +67,47 @@ TEST(calculate_matrix, calculate_matrix_one_proc) {
     }
 }
 
+//
 // Тест многопроцессорного алгоритма
+//
 TEST(multi_process, test_1_multi_process) {
-char file_name[] = SOURCE_DIR"/tests/5";
+    char file_name[] = SOURCE_DIR"/tests/5";
 
-Matrix *matrix = read_file(file_name);
+    Matrix *matrix = read_file(file_name);
 
-if (matrix == NULL) {
-return;
-}
-Calculation_res* res = multi_process(matrix);
+    if (matrix == NULL) {
+        return;
+    }
+        Calculation_res* res = multi_process(matrix);
 
-if (res != NULL) {
-int main = res->main_diagonal;
-int side = res->side_diagonal;
-free(res);
+        if (res != NULL) {
+        int main = res->main_diagonal;
+        int side = res->side_diagonal;
+        free(res);
 
-EXPECT_EQ(32, main);
-EXPECT_EQ(14, side);
-}
+        EXPECT_EQ(32, main);
+        EXPECT_EQ(14, side);
+    }
 }
 
 
 TEST(multi_process, test_4_multi_process) {
-char file_name[] = SOURCE_DIR"/tests/7";
+    char file_name[] = SOURCE_DIR"/tests/7";
 
-Matrix *matrix = read_file(file_name);
+    Matrix *matrix = read_file(file_name);
 
-if (matrix == NULL) {
-return;
-}
-Calculation_res* res = multi_process(matrix);
+    if (matrix == NULL) {
+        return;
+    }
+        Calculation_res* res = multi_process(matrix);
 
-if (res != NULL) {
-int main = res->main_diagonal;
-int side = res->side_diagonal;
-free(res);
-EXPECT_EQ(24, main);
-EXPECT_EQ(42, side);
-}
+        if (res != NULL) {
+        int main = res->main_diagonal;
+        int side = res->side_diagonal;
+        free(res);
+        EXPECT_EQ(24, main);
+        EXPECT_EQ(42, side);
+    }
 }
 
 
