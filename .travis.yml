@@ -1,5 +1,5 @@
-dist: bionic
-sudo: required
+dist:     focal
+sudo:     required  # используем Virtual Machine (а не Docker container)
 
 language: c
 
@@ -20,7 +20,7 @@ before_script:
   - cd ..
   - mkdir build && cd build
   - cmake ..
-  - make
+  - make clean && make
   - cd ..
   - cd ..
 
