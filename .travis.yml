@@ -17,6 +17,7 @@ addons:
       - cppcheck
       - lcov
       - gcovr
+      - cpplint
 
 install:
   - sudo apt-get install valgrind

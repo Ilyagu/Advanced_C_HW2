@@ -1,3 +1,7 @@
+.. image:: https://travis-ci.com/Ilyagu/Advanced_C_HW2.svg?branch=dev
+    :target: https://travis-ci.com/Ilyagu/Advanced_C_HW2
+.. image:: https://codecov.io/gh/Ilyagu/Advanced_C_HW2/branch/dev/graph/badge.svg?token=rFxQjfowyx
+    :target: https://codecov.io/gh/Ilyagu/Advanced_C_HW2
 Второе индивидуальное задание по курсу "Углубленное программирование на C/C++
 -----------------------------------------------------------------------------
 
