@@ -9,6 +9,13 @@ os:
 compiler:
   - gcc
 
+addons:
+  apt:
+    packages:
+      - cmake
+      - lcov
+      - gcovr
+
 install:
   - sudo apt-get install valgrind
   - sudo pip3 install cpplint
