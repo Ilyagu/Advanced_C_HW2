@@ -1,6 +1,4 @@
-//
-// Created by Andrew Kireev on 23.10.2020.
-//
+// Copytight 2021 Ilyagu Nagdimaev
 
 #ifndef HW_2_UTILS_H
 #define HW_2_UTILS_H
