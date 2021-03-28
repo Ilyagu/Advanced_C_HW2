@@ -4,15 +4,16 @@
 #include <string>
 #include <sys/mman.h>
 
+
 extern "C" {
-#include "one/one_proc_utils.h"
-#include "multi/multi_process_utils.h"
+    #include "one/one_proc_utils.h"
+    #include "multi/multi_process_utils.h"
 }
 
 // Сравнение результатов синхронного и многопроцессорного алгоритма
 // При разных матрицах и разном количестве процессов
 
-TEST(multi_process, compare_algs_matrix_size_10) {
+TEST(multi_calculate_matrix, compare_algs_matrix_size_10) {
     char file_name[] = SOURCE_DIR"/tests/size_10";
 
     Matrix *matrix = read_file(file_name);
@@ -20,7 +21,8 @@ TEST(multi_process, compare_algs_matrix_size_10) {
     if (matrix == NULL) {
         return;
     }
-    Calculation_res* res = multi_process(matrix);
+    size_t size = matrix->size;
+    Diagonals* res = multi_calculate_matrix(matrix);
 
     if (res != NULL) {
         int main = res->main_diagonal;
@@ -28,12 +30,13 @@ TEST(multi_process, compare_algs_matrix_size_10) {
         free(res);
 
 
-        Calculation_res* res2 = calculate_matrix(matrix);
+        Diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
         free(res2);
 
+        EXPECT_EQ(10, size);
         EXPECT_EQ(main2, main);
         EXPECT_EQ(side2, side);
     } else {
@@ -41,7 +44,7 @@ TEST(multi_process, compare_algs_matrix_size_10) {
     }
 }
 
-TEST(multi_process, compare_algs_matrix_size_20) {
+TEST(multi_calculate_matrix, compare_algs_matrix_size_20) {
     char file_name[] = SOURCE_DIR"/tests/size_20";
 
     Matrix *matrix = read_file(file_name);
@@ -49,7 +52,8 @@ TEST(multi_process, compare_algs_matrix_size_20) {
     if (matrix == NULL) {
         return;
     }
-    Calculation_res* res = multi_process(matrix);
+    size_t size = matrix->size;
+    Diagonals* res = multi_calculate_matrix(matrix);
 
     if (res != NULL) {
         int main = res->main_diagonal;
@@ -57,12 +61,13 @@ TEST(multi_process, compare_algs_matrix_size_20) {
         free(res);
 
 
-        Calculation_res* res2 = calculate_matrix(matrix);
+        Diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
         free(res2);
 
+        EXPECT_EQ(20, size);
         EXPECT_EQ(main2, main);
         EXPECT_EQ(side2, side);
     } else {
@@ -70,7 +75,7 @@ TEST(multi_process, compare_algs_matrix_size_20) {
     }
 }
 
-TEST(multi_process, compare_algs_matrix_size_30) {
+TEST(multi_calculate_matrix, compare_algs_matrix_size_30) {
     char file_name[] = SOURCE_DIR"/tests/size_30";
 
     Matrix *matrix = read_file(file_name);
@@ -78,7 +83,8 @@ TEST(multi_process, compare_algs_matrix_size_30) {
     if (matrix == NULL) {
         return;
     }
-    Calculation_res* res = multi_process(matrix);
+    size_t size = matrix->size;
+    Diagonals* res = multi_calculate_matrix(matrix);
 
     if (res != NULL) {
         int main = res->main_diagonal;
@@ -86,12 +92,13 @@ TEST(multi_process, compare_algs_matrix_size_30) {
         free(res);
 
 
-        Calculation_res* res2 = calculate_matrix(matrix);
+        Diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
         free(res2);
 
+        EXPECT_EQ(30, size);
         EXPECT_EQ(main2, main);
         EXPECT_EQ(side2, side);
     } else {
@@ -99,7 +106,7 @@ TEST(multi_process, compare_algs_matrix_size_30) {
     }
 }
 
-TEST(multi_process, compare_algs_matrix_size_40) {
+TEST(multi_calculate_matrix, compare_algs_matrix_size_40) {
     char file_name[] = SOURCE_DIR"/tests/size_40";
 
     Matrix *matrix = read_file(file_name);
@@ -107,7 +114,8 @@ TEST(multi_process, compare_algs_matrix_size_40) {
     if (matrix == NULL) {
         return;
     }
-    Calculation_res* res = multi_process(matrix);
+    size_t size = matrix->size;
+    Diagonals* res = multi_calculate_matrix(matrix);
 
     if (res != NULL) {
         int main = res->main_diagonal;
@@ -115,12 +123,13 @@ TEST(multi_process, compare_algs_matrix_size_40) {
         free(res);
 
 
-        Calculation_res* res2 = calculate_matrix(matrix);
+        Diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
         free(res2);
 
+        EXPECT_EQ(40, size);
         EXPECT_EQ(main2, main);
         EXPECT_EQ(side2, side);
     } else {
@@ -128,7 +137,7 @@ TEST(multi_process, compare_algs_matrix_size_40) {
     }
 }
 
-TEST(multi_process, compare_algs_matrix_size_50) {
+TEST(multi_calculate_matrix, compare_algs_matrix_size_50) {
     char file_name[] = SOURCE_DIR"/tests/size_50";
 
     Matrix *matrix = read_file(file_name);
@@ -136,19 +145,21 @@ TEST(multi_process, compare_algs_matrix_size_50) {
     if (matrix == NULL) {
         return;
     }
-    Calculation_res* res = multi_process(matrix);
+    size_t size = matrix->size;
+    Diagonals* res = multi_calculate_matrix(matrix);
 
     if (res != NULL) {
         int main = res->main_diagonal;
         int side = res->side_diagonal;
         free(res);
 
-        Calculation_res* res2 = calculate_matrix(matrix);
+        Diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
         free(res2);
 
+        EXPECT_EQ(50, size);
         EXPECT_EQ(main2, main);
         EXPECT_EQ(side2, side);
     } else {
@@ -156,7 +167,7 @@ TEST(multi_process, compare_algs_matrix_size_50) {
     }
 }
 
-TEST(multi_process, compare_algs_matrix_size_60) {
+TEST(multi_calculate_matrix, compare_algs_matrix_size_60) {
     char file_name[] = SOURCE_DIR"/tests/size_60";
 
     Matrix *matrix = read_file(file_name);
@@ -164,7 +175,8 @@ TEST(multi_process, compare_algs_matrix_size_60) {
     if (matrix == NULL) {
         return;
     }
-    Calculation_res* res = multi_process(matrix);
+    size_t size = matrix->size;
+    Diagonals* res = multi_calculate_matrix(matrix);
 
     if (res != NULL) {
         int main = res->main_diagonal;
@@ -172,12 +184,13 @@ TEST(multi_process, compare_algs_matrix_size_60) {
         free(res);
 
 
-        Calculation_res* res2 = calculate_matrix(matrix);
+        Diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
         free(res2);
 
+        EXPECT_EQ(60, size);
         EXPECT_EQ(main2, main);
         EXPECT_EQ(side2, side);
     } else {
@@ -185,15 +198,16 @@ TEST(multi_process, compare_algs_matrix_size_60) {
     }
 }
 
-TEST(multi_process, compare_algs_matrix_size_123) {
-    char file_name[] = SOURCE_DIR"/tests/size_123";
+TEST(multi_calculate_matrix, compare_algs_matrix_size_100) {
+    char file_name[] = SOURCE_DIR"/tests/size_100";
 
     Matrix *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
     }
-    Calculation_res* res = multi_process(matrix);
+    size_t size = matrix->size;
+    Diagonals* res = multi_calculate_matrix(matrix);
 
         if (res != NULL) {
         int main = res->main_diagonal;
@@ -201,12 +215,13 @@ TEST(multi_process, compare_algs_matrix_size_123) {
         free(res);
 
 
-        Calculation_res* res2 = calculate_matrix(matrix);
+        Diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
         free(res2);
 
+        EXPECT_EQ(100, size);
         EXPECT_EQ(main2, main);
         EXPECT_EQ(side2, side);
     } else {
@@ -214,7 +229,7 @@ TEST(multi_process, compare_algs_matrix_size_123) {
         }
 }
 
-TEST(multi_process, compare_algs_matrix_size_200) {
+TEST(multi_calculate_matrix, compare_algs_matrix_size_200) {
     char file_name[] = SOURCE_DIR"/tests/size_200";
 
     Matrix *matrix = read_file(file_name);
@@ -222,7 +237,8 @@ TEST(multi_process, compare_algs_matrix_size_200) {
     if (matrix == NULL) {
         return;
     }
-    Calculation_res* res = multi_process(matrix);
+    size_t size = matrix->size;
+    Diagonals* res = multi_calculate_matrix(matrix);
 
     if (res != NULL) {
         int main = res->main_diagonal;
@@ -230,12 +246,13 @@ TEST(multi_process, compare_algs_matrix_size_200) {
         free(res);
 
 
-        Calculation_res* res2 = calculate_matrix(matrix);
+        Diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
         free(res2);
 
+        EXPECT_EQ(200, size);
         EXPECT_EQ(main2, main);
         EXPECT_EQ(side2, side);
     } else {
@@ -243,27 +260,28 @@ TEST(multi_process, compare_algs_matrix_size_200) {
     }
 }
 
-TEST(multi_process, compare_algs_matrix_size_555) {
-    char file_name[] = SOURCE_DIR"/tests/size_555";
+TEST(multi_calculate_matrix, compare_algs_matrix_size_500) {
+    char file_name[] = SOURCE_DIR"/tests/size_500";
 
     Matrix *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
     }
-    Calculation_res* res = multi_process(matrix);
+    size_t size = matrix->size;
+    Diagonals* res = multi_calculate_matrix(matrix);
 
     if (res != NULL) {
         int main = res->main_diagonal;
         int side = res->side_diagonal;
         free(res);
 
-        Calculation_res* res2 = calculate_matrix(matrix);
+        Diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
         free(res2);
-
+        EXPECT_EQ(500, size);
         EXPECT_EQ(main2, main);
         EXPECT_EQ(side2, side);
     } else {

@@ -10,8 +10,6 @@
 #include "multi/multi_process_utils.h"
 
 
-
-
 int main(int argc, char **argv) {
     char file_name[50] = {};
     if (argc > 1)
@@ -27,7 +25,7 @@ int main(int argc, char **argv) {
         return 0;
     struct  timeval start;
     gettimeofday(&start, NULL);
-    Calculation_res* one_proc_res = calculate_matrix(matrix);
+    Diagonals* one_proc_res = calculate_matrix(matrix);
 
     if (one_proc_res == NULL) {
         free_matrix(matrix);
@@ -43,7 +41,7 @@ int main(int argc, char **argv) {
     printf("Время однопроцессорной версии: %ld миллисекунд\n", time);
 
     gettimeofday(&start, NULL);
-    Calculation_res* multi_proc_res = multi_process(matrix);
+    Diagonals* multi_proc_res = multi_calculate_matrix(matrix);
     gettimeofday(&end, NULL);
 
     if (multi_proc_res == NULL) {
@@ -62,7 +60,7 @@ int main(int argc, char **argv) {
         multi_proc_res->side_diagonal == one_proc_res->side_diagonal)
         printf("Результаты вычислений совпадают%c", '\n');
     else
-        printf("Результаты не вычислений совпадают%c", '\n');
+        printf("Результаты вычислений не совпадают%c", '\n');
 
     free(one_proc_res);
     free(multi_proc_res);

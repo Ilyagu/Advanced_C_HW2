@@ -10,8 +10,8 @@
 #include <sys/wait.h>
 
 
-int create_forks(int num, int *pids) {
-    for (int i = 0; i != num; ++i) {
+int create_forks(const int num_forks, int *pids) {
+    for (int i = 0; i != num_forks; ++i) {
         static int pid = 0;
         if ((pid = fork()) == -1)
             return -1;
@@ -20,13 +20,13 @@ int create_forks(int num, int *pids) {
         }
         pids[i] = pid;
     }
-    return PARENT_PID;          // Код parent процесса, нужно будет потом добавить enum;
+    return PARENT_PID;
 }
 
-Calculation_multi_proc_res *create_shared_memory() {
+Multi_Diogonals *create_shared_memory() {
     size_t page_size = getpagesize();
 
-    Calculation_multi_proc_res *shared_memory = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
+    Multi_Diogonals *shared_memory = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
                                                      MAP_SHARED | MAP_ANONYMOUS, -1, 0);
     if (!shared_memory) {
         return NULL;
@@ -36,23 +36,23 @@ Calculation_multi_proc_res *create_shared_memory() {
     return shared_memory;
 }
 
-int calculate_multi_proc(Matrix* matrix, Calculation_multi_proc_res* res, int proc_number, int procs_amount) {
-    int n = matrix->size;
-    int line_for_proc = (n / procs_amount);
+int calculate_multi_proc(Matrix* matrix, Multi_Diogonals* res, int number, int amount) {
+    int matrix_size = matrix->size;
+    int line_for_proc = (matrix_size / amount);
 
-    int rest = (proc_number + 1) * line_for_proc;
-    if (proc_number + 1 == procs_amount) {
+    int rest = (number + 1) * line_for_proc;
+    if (number + 1 == amount) {
         rest = matrix->size;
     }
 
-    for (int i = proc_number * line_for_proc; i != rest; ++i) {
-        for (int j = 0; j != n; ++j) {
+    for (int i = number * line_for_proc; i != rest; ++i) {
+        for (int j = 0; j != matrix_size; ++j) {
             if (i == j) {
                 pthread_mutex_lock(&res->mutex);
                 res->main_diagonal += matrix->matrix[i][j];
                 pthread_mutex_unlock(&res->mutex);
             }
-            if (n == i + j + 1) {
+            if (matrix_size == i + j + 1) {
                 pthread_mutex_lock(&res->mutex);
                 res->side_diagonal += matrix->matrix[i][j];
                 pthread_mutex_unlock(&res->mutex);
@@ -72,13 +72,13 @@ int select_proc_num(size_t matrix_size) {
     if (matrix_size < 10000)
         return 4;
     if (matrix_size < 20000)
-        return 6;
+        return 5;
     if (matrix_size < 100000)
-        return 7;
-    return 10;
+        return 6;
+    return 9;
 }
 
-Calculation_res* multi_process(Matrix* matrix) {
+Diagonals* multi_calculate_matrix(Matrix* matrix) {
     if (matrix == NULL)
         return NULL;
     int num_forks = select_proc_num(matrix->size);
@@ -86,7 +86,7 @@ Calculation_res* multi_process(Matrix* matrix) {
     for (int i = 0; i != num_forks; ++i)
         pids[i] = 0;
 
-    Calculation_multi_proc_res* res;
+    Multi_Diogonals* res;
 
     if ((res = create_shared_memory()) == NULL) {
         free(pids);
@@ -112,8 +112,8 @@ Calculation_res* multi_process(Matrix* matrix) {
         while (waitpid(pids[i], NULL, 0) > 0) {}
     }
 
-    Calculation_res* res_to_return;
-    if ((res_to_return = malloc(sizeof(Calculation_res))) == NULL) {
+    Diagonals* res_to_return;
+    if ((res_to_return = malloc(sizeof(Diagonals))) == NULL) {
         munmap(res, getpagesize());
         free(pids);
         return NULL;

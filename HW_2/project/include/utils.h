@@ -13,7 +13,7 @@ typedef struct {
 typedef struct {
     int main_diagonal;
     int side_diagonal;
-} Calculation_res;
+} Diagonals;
 
 Matrix* read_file(const char* file_name);
 void free_matrix(Matrix* matrix);

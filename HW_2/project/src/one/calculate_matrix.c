@@ -3,11 +3,11 @@
 #include "utils.h"
 #include <stdlib.h>
 
-Calculation_res* calculate_matrix(Matrix* matrix) {
+Diagonals* calculate_matrix(Matrix* matrix) {
     if (matrix == NULL)
         return NULL;
 
-    Calculation_res* res;
+    Diagonals* res;
 
     if ((res = malloc(sizeof(Matrix))) == NULL)
         return NULL;
