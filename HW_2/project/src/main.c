@@ -6,12 +6,12 @@
 #include <sys/mman.h>
 #include <time.h>
 #include <sys/time.h>
-#include "one/one_proc_utils.h"
-#include "multi/multi_process_utils.h"
+#include <dlfcn.h>
+#include "utils.h"
 
 
 int main(int argc, char **argv) {
-    char file_name[50] = {};
+    char file_name[MAX_FILE_NAME] = {};
     if (argc > 1)
         strcpy(file_name, argv[1]);
     else
@@ -33,16 +33,26 @@ int main(int argc, char **argv) {
     }
     struct  timeval end;
     gettimeofday(&end, NULL);
-    long time = (end.tv_sec - start.tv_sec) * 1000 + (end.tv_usec - start.tv_usec) / 1000;
+    long time = (end.tv_sec - start.tv_sec) * MSECONDS + (end.tv_usec - start.tv_usec) / MSECONDS;
 
     printf("Результат вычислений синхронного алгоритма:%c", '\n');
     printf("Сумма главной диагонали = %d\n", one_proc_res->main_diagonal);
     printf("Сумма побочной диагонали = %d\n", one_proc_res->side_diagonal);
     printf("Время однопроцессорной версии: %ld миллисекунд\n", time);
 
+    void *handle = dlopen("./libmulti_compute_matrix.so", RTLD_LAZY);
+    if (!handle) {
+        return 1;
+    }
+
+    int (*funcpt)();
+    *(void **)(&funcpt) = dlsym(handle, "calculate_matrix");
+
     gettimeofday(&start, NULL);
-    Diagonals* multi_proc_res = multi_calculate_matrix(matrix);
+    Diagonals* multi_proc_res = calculate_matrix(matrix);
     gettimeofday(&end, NULL);
+
+    dlclose(handle);
 
     if (multi_proc_res == NULL) {
         free(one_proc_res);

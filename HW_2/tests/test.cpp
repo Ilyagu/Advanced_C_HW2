@@ -3,11 +3,11 @@
 #include <gtest/gtest.h>
 #include <string>
 #include <sys/mman.h>
+#include <dlfcn.h>
 
 
 extern "C" {
-    #include "one/one_proc_utils.h"
-    #include "multi/multi_process_utils.h"
+    #include "utils.h"
 }
 
 TEST(read_file, reading_from_file_test2) {
@@ -67,7 +67,18 @@ TEST(multi_calculate_matrix, test_1_multi_calculate_matrix) {
     if (matrix == NULL) {
         return;
     }
-    Diagonals* res = multi_calculate_matrix(matrix);
+
+    void *handle = dlopen("./libmulti_compute_matrix.so", RTLD_LAZY);
+    if (!handle) {
+        return;
+    }
+
+    int (*funcpt)();
+    *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
+
+    Diagonals* res = calculate_matrix(matrix);
+
+    dlclose(handle);
 
     if (res != NULL) {
         size_t size = matrix->size;
@@ -90,7 +101,18 @@ TEST(multi_calculate_matrix, test_4_multi_calculate_matrix) {
         return;
     }
     size_t size = matrix->size;
-    Diagonals* res = multi_calculate_matrix(matrix);
+
+    void *handle = dlopen("./libmulti_compute_matrix.so", RTLD_LAZY);
+    if (!handle) {
+        return;
+    }
+
+    int (*funcpt)();
+    *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
+
+    Diagonals* res = calculate_matrix(matrix);
+
+    dlclose(handle);
 
         if (res != NULL) {
         int main = res->main_diagonal;
@@ -116,8 +138,18 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_10) {
         return;
     }
     size_t size = matrix->size;
-    Diagonals* res = multi_calculate_matrix(matrix);
 
+    void *handle = dlopen("./libmulti_compute_matrix.so", RTLD_LAZY);
+    if (!handle) {
+        return;
+    }
+
+    int (*funcpt)();
+    *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
+
+    Diagonals* res = calculate_matrix(matrix);
+
+    dlclose(handle);
     if (res != NULL) {
         int main = res->main_diagonal;
         int side = res->side_diagonal;
@@ -147,7 +179,18 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_100) {
         return;
     }
     size_t size = matrix->size;
-    Diagonals* res = multi_calculate_matrix(matrix);
+
+    void *handle = dlopen("./libmulti_compute_matrix.so", RTLD_LAZY);
+    if (!handle) {
+    return;
+    }
+
+    int (*funcpt)();
+    *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
+
+    Diagonals* res = calculate_matrix(matrix);
+
+    dlclose(handle);
 
     if (res != NULL) {
         int main = res->main_diagonal;
@@ -178,7 +221,18 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_200) {
         return;
     }
     size_t size = matrix->size;
-    Diagonals* res = multi_calculate_matrix(matrix);
+
+    void *handle = dlopen("./libmulti_compute_matrix.so", RTLD_LAZY);
+    if (!handle) {
+        return;
+    }
+
+    int (*funcpt)();
+    *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
+
+    Diagonals* res = calculate_matrix(matrix);
+
+    dlclose(handle);
 
     if (res != NULL) {
         int main = res->main_diagonal;
@@ -209,7 +263,18 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_500) {
         return;
     }
     size_t size = matrix->size;
-    Diagonals* res = multi_calculate_matrix(matrix);
+
+    void *handle = dlopen("./libmulti_compute_matrix.so", RTLD_LAZY);
+    if (!handle) {
+        return;
+    }
+
+    int (*funcpt)();
+    *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
+
+    Diagonals* res = calculate_matrix(matrix);
+
+    dlclose(handle);
 
     if (res != NULL) {
         int main = res->main_diagonal;
@@ -240,7 +305,18 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_600) {
         return;
     }
     size_t size = matrix->size;
-    Diagonals* res = multi_calculate_matrix(matrix);
+
+    void *handle = dlopen("./libmulti_compute_matrix.so", RTLD_LAZY);
+    if (!handle) {
+        return;
+    }
+
+    int (*funcpt)();
+    *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
+
+    Diagonals* res = calculate_matrix(matrix);
+
+    dlclose(handle);
 
     if (res != NULL) {
         int main = res->main_diagonal;
@@ -271,7 +347,18 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_1000) {
         return;
     }
     size_t size = matrix->size;
-    Diagonals* res = multi_calculate_matrix(matrix);
+
+    void *handle = dlopen("./libmulti_compute_matrix.so", RTLD_LAZY);
+    if (!handle) {
+        return;
+    }
+
+    int (*funcpt)();
+    *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
+
+    Diagonals* res = calculate_matrix(matrix);
+
+    dlclose(handle);
 
     if (res != NULL) {
         int main = res->main_diagonal;
@@ -302,8 +389,18 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_2000) {
         return;
     }
     size_t size = matrix->size;
-    Diagonals* res = multi_calculate_matrix(matrix);
 
+    void *handle = dlopen("./libmulti_compute_matrix.so", RTLD_LAZY);
+    if (!handle) {
+        return;
+    }
+
+    int (*funcpt)();
+    *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
+
+    Diagonals* res = calculate_matrix(matrix);
+
+    dlclose(handle);
     if (res != NULL) {
         int main = res->main_diagonal;
         int side = res->side_diagonal;
@@ -333,7 +430,18 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_5000) {
         return;
     }
     size_t size = matrix->size;
-    Diagonals* res = multi_calculate_matrix(matrix);
+
+    void *handle = dlopen("./libmulti_compute_matrix.so", RTLD_LAZY);
+    if (!handle) {
+        return;
+    }
+
+    int (*funcpt)();
+    *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
+
+    Diagonals* res = calculate_matrix(matrix);
+
+    dlclose(handle);
 
     if (res != NULL) {
         int main = res->main_diagonal;
@@ -364,7 +472,18 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_10000) {
         return;
     }
     size_t size = matrix->size;
-    Diagonals* res = multi_calculate_matrix(matrix);
+
+    void *handle = dlopen("./libmulti_compute_matrix.so", RTLD_LAZY);
+    if (!handle) {
+        return;
+    }
+
+    int (*funcpt)();
+    *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
+
+    Diagonals* res = calculate_matrix(matrix);
+
+    dlclose(handle);
 
     if (res != NULL) {
         int main = res->main_diagonal;

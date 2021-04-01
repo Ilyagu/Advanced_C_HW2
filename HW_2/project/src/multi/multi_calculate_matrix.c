@@ -1,6 +1,6 @@
 // Copyright 2021 Ilyagu Nagdimaev
 
-#include "multi/multi_process_utils.h"
+#include "utils.h"
 
 #include <string.h>
 #include <stdlib.h>
@@ -26,14 +26,14 @@ int create_forks(const int num_forks, int *pids) {
 Multi_Diogonals *create_shared_memory() {
     size_t page_size = getpagesize();
 
-    Multi_Diogonals *shared_memory = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
+    Multi_Diogonals *shared_res = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
                                                      MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-    if (!shared_memory) {
+    if (!shared_res) {
         return NULL;
     }
-    shared_memory->main_diagonal = 0;
-    shared_memory->side_diagonal = 0;
-    return shared_memory;
+    shared_res->main_diagonal = 0;
+    shared_res->side_diagonal = 0;
+    return shared_res;
 }
 
 int calculate_multi_proc(Matrix* matrix, Multi_Diogonals* res, int number, int amount) {
@@ -78,7 +78,7 @@ int select_proc_num(size_t matrix_size) {
     return 9;
 }
 
-Diagonals* multi_calculate_matrix(Matrix* matrix) {
+Diagonals* calculate_matrix(Matrix* matrix) {
     if (matrix == NULL)
         return NULL;
     int num_forks = select_proc_num(matrix->size);
