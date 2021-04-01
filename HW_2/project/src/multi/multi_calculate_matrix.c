@@ -23,20 +23,22 @@ int create_forks(const int num_forks, int *pids) {
     return PARENT_PID;
 }
 
-Multi_Diogonals *create_shared_memory() {
+Diagonals *create_shared_memory(const int num_forks) {
     size_t page_size = getpagesize();
 
-    Multi_Diogonals *shared_res = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
+    Diagonals *shared_res = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
                                                      MAP_SHARED | MAP_ANONYMOUS, -1, 0);
     if (!shared_res) {
         return NULL;
     }
-    shared_res->main_diagonal = 0;
-    shared_res->side_diagonal = 0;
+    for (int i  = 0; i < num_forks; i++) {
+        shared_res[i].main_diagonal = 0;
+        shared_res[i].side_diagonal = 0;
+    }
     return shared_res;
 }
 
-int calculate_multi_proc(Matrix* matrix, Multi_Diogonals* res, int number, int amount) {
+int calculate_multi_proc(Matrix* matrix, Diagonals* arr_res, int number, int amount) {
     int matrix_size = matrix->size;
     int line_for_proc = (matrix_size / amount);
 
@@ -48,14 +50,10 @@ int calculate_multi_proc(Matrix* matrix, Multi_Diogonals* res, int number, int a
     for (int i = number * line_for_proc; i != rest; ++i) {
         for (int j = 0; j != matrix_size; ++j) {
             if (i == j) {
-                pthread_mutex_lock(&res->mutex);
-                res->main_diagonal += matrix->matrix[i][j];
-                pthread_mutex_unlock(&res->mutex);
+                 arr_res[number].main_diagonal += matrix->matrix[i][j];
             }
             if (matrix_size == i + j + 1) {
-                pthread_mutex_lock(&res->mutex);
-                res->side_diagonal += matrix->matrix[i][j];
-                pthread_mutex_unlock(&res->mutex);
+                arr_res[number].side_diagonal += matrix->matrix[i][j];
             }
         }
     }
@@ -86,43 +84,37 @@ Diagonals* calculate_matrix(Matrix* matrix) {
     for (int i = 0; i != num_forks; ++i)
         pids[i] = 0;
 
-    Multi_Diogonals* res;
+    Diagonals* res = NULL;
+    Diagonals* arr_res;
 
-    if ((res = create_shared_memory()) == NULL) {
+    if ((arr_res = create_shared_memory(num_forks)) == NULL) {
         free(pids);
         return NULL;
     }
 
-    pthread_mutexattr_t attr;
-    pthread_mutexattr_init(&attr);
-    pthread_mutexattr_setpshared(&attr, PTHREAD_PROCESS_SHARED);
-    pthread_mutex_init(&res->mutex, &attr);
-
     int process_number;
     if ((process_number = create_forks(num_forks, pids)) == -1) {
-        munmap(res, getpagesize());
+        munmap(arr_res, getpagesize());
         free(pids);
         return NULL;
     }
 
     if (process_number != PARENT_PID)
-        calculate_multi_proc(matrix, res, process_number, num_forks);
+        calculate_multi_proc(matrix, arr_res, process_number, num_forks);
 
     for (int i = 0; i < num_forks; i++) {
         while (waitpid(pids[i], NULL, 0) > 0) {}
     }
 
-    Diagonals* res_to_return;
-    if ((res_to_return = malloc(sizeof(Diagonals))) == NULL) {
-        munmap(res, getpagesize());
-        free(pids);
-        return NULL;
+    for (int i = 0; i < num_forks; i++) {
+        res->main_diagonal+=arr_res[i].main_diagonal;
+        res->side_diagonal+=arr_res[i].side_diagonal;
     }
-    res_to_return->main_diagonal = res->main_diagonal;
-    res_to_return->side_diagonal = res->side_diagonal;
-    munmap(res, getpagesize());
 
+    munmap(arr_res, getpagesize());
+
+    free(arr_res);
     free(pids);
-    return res_to_return;
+    return res;
 }
 

@@ -21,11 +21,6 @@ typedef struct {
     int** matrix;
 } Matrix;
 
-typedef struct {
-    int main_diagonal;
-    int side_diagonal;
-    pthread_mutex_t mutex;
-} Multi_Diogonals;
 
 Matrix* read_file(const char* file_name);
 void free_matrix(Matrix* matrix);
