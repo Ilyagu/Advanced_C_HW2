@@ -12,7 +12,7 @@ matrix_type* read_file(const char* file_name) {
         return NULL;
 
     matrix_type* matrix;
-    if ((matrix = malloc(sizeof(matrix))) == NULL) {
+    if ((matrix = (matrix_type*)malloc(sizeof(matrix_type))) == NULL) {
         fclose(file);
         return NULL;
     }

@@ -16,7 +16,7 @@ extern "C" {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_10) {
     char file_name[] = SOURCE_DIR"/tests/size_10";
 
-   matrix_type *matrix = read_file(file_name);
+    matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -58,7 +58,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_10) {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_20) {
     char file_name[] = SOURCE_DIR"/tests/size_20";
 
-   matrix_type *matrix = read_file(file_name);
+    matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -100,7 +100,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_20) {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_30) {
     char file_name[] = SOURCE_DIR"/tests/size_30";
 
-   matrix_type *matrix = read_file(file_name);
+    matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -142,7 +142,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_30) {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_40) {
     char file_name[] = SOURCE_DIR"/tests/size_40";
 
-   matrix_type *matrix = read_file(file_name);
+    matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -225,7 +225,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_50) {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_60) {
     char file_name[] = SOURCE_DIR"/tests/size_60";
 
-   matrix_type *matrix = read_file(file_name);
+    matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -267,7 +267,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_60) {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_100) {
     char file_name[] = SOURCE_DIR"/tests/size_100";
 
-   matrix_type *matrix = read_file(file_name);
+    matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -309,7 +309,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_100) {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_200) {
     char file_name[] = SOURCE_DIR"/tests/size_200";
 
-   matrix_type *matrix = read_file(file_name);
+    matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -351,7 +351,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_200) {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_500) {
     char file_name[] = SOURCE_DIR"/tests/size_500";
 
-   matrix_type *matrix = read_file(file_name);
+    matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;

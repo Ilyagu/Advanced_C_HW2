@@ -64,3 +64,10 @@ add_executable(HW_2
 target_link_libraries(HW_2 Threads::Threads pthread -ldl compute_matrix)
 
 target_include_directories(HW_2 PUBLIC ${INC_DIR})
+
+add_executable(TEST_MAIN
+        ${SRC_DIR}/test_main.c)
+
+target_link_libraries(TEST_MAIN Threads::Threads pthread -ldl compute_matrix)
+
+target_include_directories(TEST_MAIN PUBLIC ${INC_DIR})

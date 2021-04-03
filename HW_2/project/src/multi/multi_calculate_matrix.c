@@ -60,26 +60,9 @@ int calculate_multi_proc(matrix_type* matrix, diagonals* arr_res, int number, in
     exit(0);
 }
 
-int select_proc_num(size_t matrix_size) {
-    if (matrix_size < 100)
-        return 1;
-    if (matrix_size < 1000)
-        return 2;
-    if (matrix_size < 5000)
-        return 3;
-    if (matrix_size < 10000)
-        return 4;
-    if (matrix_size < 20000)
-        return 5;
-    if (matrix_size < 100000)
-        return 6;
-    return 7;
-}
-
 diagonals* calculate_matrix(matrix_type* matrix) {
     if (matrix == NULL)
         return NULL;
-//    int num_forks = select_proc_num(matrix->size);
     int num_forks = sysconf(_SC_NPROCESSORS_ONLN);
     int *pids = malloc(sizeof(int) * num_forks);
     for (int i = 0; i != num_forks; ++i)
@@ -118,4 +101,3 @@ diagonals* calculate_matrix(matrix_type* matrix) {
     free(pids);
     return res;
 }
-
