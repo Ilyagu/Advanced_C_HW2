@@ -14,15 +14,15 @@
 typedef struct {
     int main_diagonal;
     int side_diagonal;
-} Diagonals;
+} diagonals;
 
 typedef struct {
     size_t size;
     int** matrix;
-} Matrix;
+} matrix_type;
 
 
-Matrix* read_file(const char* file_name);
-void free_matrix(Matrix* matrix);
+matrix_type * read_file(const char* file_name);
+void free_matrix(matrix_type* matrix);
 
 #endif //ADVANCED_C_HW2_COMMON_UTILS_H

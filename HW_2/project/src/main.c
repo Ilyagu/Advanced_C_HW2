@@ -14,18 +14,17 @@ int main(int argc, char **argv) {
     char file_name[MAX_FILE_NAME] = {};
     if (argc > 1)
         strcpy(file_name, argv[1]);
-    else
-    if (scanf("%49s", file_name) == 0)
+    else if (scanf("%49s", file_name) == 0)
         return 0;
 
-    Matrix* matrix;
+    matrix_type* matrix;
 
     matrix = read_file(file_name);
     if (matrix == NULL)
         return 0;
     struct  timeval start;
     gettimeofday(&start, NULL);
-    Diagonals* one_proc_res = calculate_matrix(matrix);
+    diagonals* one_proc_res = calculate_matrix(matrix);
 
     if (one_proc_res == NULL) {
         free_matrix(matrix);
@@ -49,7 +48,7 @@ int main(int argc, char **argv) {
     *(void **)(&funcpt) = dlsym(handle, "calculate_matrix");
 
     gettimeofday(&start, NULL);
-    Diagonals* multi_proc_res = calculate_matrix(matrix);
+    diagonals* multi_proc_res = calculate_matrix(matrix);
     gettimeofday(&end, NULL);
 
     dlclose(handle);

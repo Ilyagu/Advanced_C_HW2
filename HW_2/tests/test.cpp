@@ -11,7 +11,7 @@ extern "C" {
 }
 
 TEST(read_file, reading_from_file_test2) {
-    Matrix* matrix = read_file(SOURCE_DIR"/tests/tes");
+    matrix_type* matrix = read_file(SOURCE_DIR"/tests/tes");
     if (matrix != NULL)
         free_matrix(matrix);
 }
@@ -21,9 +21,9 @@ TEST(read_file, reading_from_file_test2) {
 //
 
 TEST(read_file, reading_from_file_test3) {
-    Matrix* matrix = read_file(SOURCE_DIR"/tests/test2");
+    matrix_type* matrix = read_file(SOURCE_DIR"/tests/test2");
     if (matrix != NULL) {
-        Diagonals* res = calculate_matrix(matrix);
+        diagonals* res = calculate_matrix(matrix);
         size_t size = matrix->size;
         int main = res->main_diagonal;
         int side = res->side_diagonal;
@@ -39,10 +39,10 @@ TEST(read_file, reading_from_file_test3) {
 //
 
 TEST(calculate_matrix, calculate_matrix_one_proc2) {
-    Matrix* matrix = read_file(SOURCE_DIR"/tests/test1");
+    matrix_type* matrix = read_file(SOURCE_DIR"/tests/test1");
 
     if (matrix != NULL) {
-        Diagonals* res = calculate_matrix(matrix);
+        diagonals* res = calculate_matrix(matrix);
         size_t size = matrix->size;
         int main = res->main_diagonal;
         int side = res->side_diagonal;
@@ -62,7 +62,7 @@ TEST(calculate_matrix, calculate_matrix_one_proc2) {
 TEST(multi_calculate_matrix, test_1_multi_calculate_matrix) {
     char file_name[] = SOURCE_DIR"/tests/5";
 
-    Matrix *matrix = read_file(file_name);
+   matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -76,7 +76,7 @@ TEST(multi_calculate_matrix, test_1_multi_calculate_matrix) {
     int (*funcpt)();
     *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
 
-    Diagonals* res = calculate_matrix(matrix);
+    diagonals* res = calculate_matrix(matrix);
 
     dlclose(handle);
 
@@ -95,7 +95,7 @@ TEST(multi_calculate_matrix, test_1_multi_calculate_matrix) {
 TEST(multi_calculate_matrix, test_4_multi_calculate_matrix) {
     char file_name[] = SOURCE_DIR"/tests/7";
 
-    Matrix *matrix = read_file(file_name);
+   matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -110,7 +110,7 @@ TEST(multi_calculate_matrix, test_4_multi_calculate_matrix) {
     int (*funcpt)();
     *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
 
-    Diagonals* res = calculate_matrix(matrix);
+    diagonals* res = calculate_matrix(matrix);
 
     dlclose(handle);
 
@@ -132,7 +132,7 @@ TEST(multi_calculate_matrix, test_4_multi_calculate_matrix) {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_10) {
     char file_name[] = SOURCE_DIR"/tests/size_10";
 
-    Matrix *matrix = read_file(file_name);
+   matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -147,7 +147,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_10) {
     int (*funcpt)();
     *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
 
-    Diagonals* res = calculate_matrix(matrix);
+    diagonals* res = calculate_matrix(matrix);
 
     dlclose(handle);
     if (res != NULL) {
@@ -156,7 +156,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_10) {
         free(res);
 
 
-        Diagonals* res2 = calculate_matrix(matrix);
+        diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
@@ -173,7 +173,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_10) {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_100) {
     char file_name[] = SOURCE_DIR"/tests/size_100";
 
-    Matrix *matrix = read_file(file_name);
+   matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -188,7 +188,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_100) {
     int (*funcpt)();
     *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
 
-    Diagonals* res = calculate_matrix(matrix);
+    diagonals* res = calculate_matrix(matrix);
 
     dlclose(handle);
 
@@ -198,7 +198,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_100) {
         free(res);
 
 
-        Diagonals* res2 = calculate_matrix(matrix);
+        diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
@@ -215,7 +215,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_100) {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_200) {
     char file_name[] = SOURCE_DIR"/tests/size_200";
 
-    Matrix *matrix = read_file(file_name);
+    matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -230,7 +230,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_200) {
     int (*funcpt)();
     *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
 
-    Diagonals* res = calculate_matrix(matrix);
+    diagonals* res = calculate_matrix(matrix);
 
     dlclose(handle);
 
@@ -240,7 +240,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_200) {
         free(res);
 
 
-        Diagonals* res2 = calculate_matrix(matrix);
+        diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
@@ -257,7 +257,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_200) {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_500) {
     char file_name[] = SOURCE_DIR"/tests/size_500";
 
-    Matrix *matrix = read_file(file_name);
+   matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -272,7 +272,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_500) {
     int (*funcpt)();
     *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
 
-    Diagonals* res = calculate_matrix(matrix);
+    diagonals* res = calculate_matrix(matrix);
 
     dlclose(handle);
 
@@ -282,7 +282,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_500) {
         free(res);
 
 
-        Diagonals* res2 = calculate_matrix(matrix);
+        diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
@@ -299,7 +299,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_500) {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_600) {
     char file_name[] = SOURCE_DIR"/tests/size_600";
 
-    Matrix *matrix = read_file(file_name);
+   matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -314,7 +314,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_600) {
     int (*funcpt)();
     *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
 
-    Diagonals* res = calculate_matrix(matrix);
+    diagonals* res = calculate_matrix(matrix);
 
     dlclose(handle);
 
@@ -324,7 +324,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_600) {
         free(res);
 
 
-        Diagonals* res2 = calculate_matrix(matrix);
+        diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
@@ -341,7 +341,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_600) {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_1000) {
     char file_name[] = SOURCE_DIR"/tests/size_1000";
 
-    Matrix *matrix = read_file(file_name);
+   matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -356,7 +356,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_1000) {
     int (*funcpt)();
     *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
 
-    Diagonals* res = calculate_matrix(matrix);
+    diagonals* res = calculate_matrix(matrix);
 
     dlclose(handle);
 
@@ -366,7 +366,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_1000) {
         free(res);
 
 
-        Diagonals* res2 = calculate_matrix(matrix);
+        diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
@@ -383,7 +383,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_1000) {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_2000) {
     char file_name[] = SOURCE_DIR"/tests/size_2000";
 
-    Matrix *matrix = read_file(file_name);
+   matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -398,7 +398,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_2000) {
     int (*funcpt)();
     *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
 
-    Diagonals* res = calculate_matrix(matrix);
+    diagonals* res = calculate_matrix(matrix);
 
     dlclose(handle);
     if (res != NULL) {
@@ -407,7 +407,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_2000) {
         free(res);
 
 
-        Diagonals* res2 = calculate_matrix(matrix);
+        diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
@@ -424,7 +424,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_2000) {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_5000) {
     char file_name[] = SOURCE_DIR"/tests/size_5000";
 
-    Matrix *matrix = read_file(file_name);
+   matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -439,7 +439,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_5000) {
     int (*funcpt)();
     *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
 
-    Diagonals* res = calculate_matrix(matrix);
+    diagonals* res = calculate_matrix(matrix);
 
     dlclose(handle);
 
@@ -449,7 +449,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_5000) {
         free(res);
 
 
-        Diagonals* res2 = calculate_matrix(matrix);
+        diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;
@@ -466,7 +466,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_5000) {
 TEST(multi_calculate_matrix, compare_algs_matrix_size_10000) {
     char file_name[] = SOURCE_DIR"/tests/size_10000";
 
-    Matrix *matrix = read_file(file_name);
+   matrix_type *matrix = read_file(file_name);
 
     if (matrix == NULL) {
         return;
@@ -481,7 +481,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_10000) {
     int (*funcpt)();
     *reinterpret_cast<void **>(&funcpt) = dlsym(handle, "calculate_matrix");
 
-    Diagonals* res = calculate_matrix(matrix);
+    diagonals* res = calculate_matrix(matrix);
 
     dlclose(handle);
 
@@ -490,7 +490,7 @@ TEST(multi_calculate_matrix, compare_algs_matrix_size_10000) {
         int side = res->side_diagonal;
         free(res);
 
-    Diagonals* res2 = calculate_matrix(matrix);
+        diagonals* res2 = calculate_matrix(matrix);
         free_matrix(matrix);
         int main2 = res2->main_diagonal;
         int side2 = res2->side_diagonal;

@@ -3,13 +3,13 @@
 #include "utils.h"
 #include <stdlib.h>
 
-Diagonals* calculate_matrix(Matrix* matrix) {
+diagonals* calculate_matrix(matrix_type* matrix) {
     if (matrix == NULL)
         return NULL;
 
-    Diagonals* res;
+    diagonals* res;
 
-    if ((res = malloc(sizeof(Matrix))) == NULL)
+    if ((res = malloc(sizeof(diagonals))) == NULL)
         return NULL;
     int n = matrix->size;
 

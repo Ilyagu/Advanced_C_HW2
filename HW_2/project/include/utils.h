@@ -6,6 +6,6 @@
 #include <stdio.h>
 #include "common/common_utils.h"
 
-Diagonals* calculate_matrix(Matrix* matrix);
+diagonals* calculate_matrix(matrix_type * matrix);
 
 #endif //HW_2_UTILS_H

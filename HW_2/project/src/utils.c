@@ -4,15 +4,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-Matrix* read_file(const char* file_name) {
+matrix_type* read_file(const char* file_name) {
     FILE* file;
 
     file = fopen(file_name, "r");
     if (file == NULL)
         return NULL;
 
-    Matrix* matrix;
-    if ((matrix = (Matrix*)malloc(sizeof(Matrix))) == NULL) {
+    matrix_type* matrix;
+    if ((matrix = malloc(sizeof(matrix))) == NULL) {
         fclose(file);
         return NULL;
     }
@@ -58,7 +58,7 @@ Matrix* read_file(const char* file_name) {
     return matrix;
 }
 
-void free_matrix(Matrix* matrix) {
+void free_matrix(matrix_type* matrix) {
     if (matrix == NULL)
         return;
     int n = matrix->size;

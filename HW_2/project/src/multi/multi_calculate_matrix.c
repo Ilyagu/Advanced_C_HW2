@@ -23,10 +23,10 @@ int create_forks(const int num_forks, int *pids) {
     return PARENT_PID;
 }
 
-Diagonals *create_shared_memory(const int num_forks) {
+diagonals *create_shared_memory(const int num_forks) {
     size_t page_size = getpagesize();
 
-    Diagonals *shared_res = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
+    diagonals *shared_res = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
                                                      MAP_SHARED | MAP_ANONYMOUS, -1, 0);
     if (!shared_res) {
         return NULL;
@@ -38,7 +38,7 @@ Diagonals *create_shared_memory(const int num_forks) {
     return shared_res;
 }
 
-int calculate_multi_proc(Matrix* matrix, Diagonals* arr_res, int number, int amount) {
+int calculate_multi_proc(matrix_type* matrix, diagonals* arr_res, int number, int amount) {
     int matrix_size = matrix->size;
     int line_for_proc = (matrix_size / amount);
 
@@ -73,19 +73,20 @@ int select_proc_num(size_t matrix_size) {
         return 5;
     if (matrix_size < 100000)
         return 6;
-    return 9;
+    return 7;
 }
 
-Diagonals* calculate_matrix(Matrix* matrix) {
+diagonals* calculate_matrix(matrix_type* matrix) {
     if (matrix == NULL)
         return NULL;
-    int num_forks = select_proc_num(matrix->size);
+//    int num_forks = select_proc_num(matrix->size);
+    int num_forks = sysconf(_SC_NPROCESSORS_ONLN);
     int *pids = malloc(sizeof(int) * num_forks);
     for (int i = 0; i != num_forks; ++i)
         pids[i] = 0;
 
-    Diagonals* res = NULL;
-    Diagonals* arr_res;
+    diagonals* res = NULL;
+    diagonals* arr_res;
 
     if ((arr_res = create_shared_memory(num_forks)) == NULL) {
         free(pids);
